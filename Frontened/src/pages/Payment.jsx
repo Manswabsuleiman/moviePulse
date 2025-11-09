@@ -26,7 +26,7 @@ const Payment = () => {
       setMessage("");
 
       const response = await axios.post(
-        "https://proarmy-tammara-thermogenic.ngrok-free.dev/api/pesapal/order",
+        "https://moviepulse-9zq3.onrender.com/api/pesapal/order",
         {
           email,
           phone,
