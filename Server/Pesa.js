@@ -10,7 +10,7 @@ const app = express();
 // CORS Configuration
 // ----------------------
 const corsOptions = {
-  origin: "http://localhost:5173", // allow only local frontend
+  origin: "https://movieui.onrender.com", // allow only local frontend
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
 };
@@ -25,7 +25,7 @@ const PESAPAL_CONSUMER_KEY = "q+VgbmFWV80GUHw72+a5kPbhIYxoOV0X";
 const PESAPAL_CONSUMER_SECRET = "ckA8EE4abmKNsCgzhMY5QlOhoOI=";
 const BASE_URL = "https://pay.pesapal.com/v3/api";
 const IPN_ID = "3db0823c-0eb7-4a4e-b477-db1e72aa1bb1";
-const LIVE_CALLBACK_URL = "https://moviepulse-9zq3.onrender.com/api/pesapal/ipn";
+const LIVE_CALLBACK_URL = "https://movieui.onrender.com/api/pesapal/ipn";
 
 let accessToken = null;
 
