@@ -10,7 +10,7 @@ const app = express();
 // CORS Configuration
 // ----------------------
 const corsOptions = {
-  origin: "https://movieui.onrender.com", // allow only local frontend
+  origin: "http://localhost:5173", // allow only local frontend
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
 };
