@@ -34,13 +34,13 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // ----------------------
-// PesaPal LIVE Credentials (use environment variables)
+// PesaPal LIVE Credentials (hardcoded)
 // ----------------------
-const PESAPAL_CONSUMER_KEY = process.env.PESAPAL_CONSUMER_KEY;
-const PESAPAL_CONSUMER_SECRET = process.env.PESAPAL_CONSUMER_SECRET;
+const PESAPAL_CONSUMER_KEY = "q+VgbmFWV80GUHw72+a5kPbhIYxoOV0X";
+const PESAPAL_CONSUMER_SECRET = "ckA8EE4abmKNsCgzhMY5QlOhoOI=";
 const BASE_URL = "https://pay.pesapal.com/v3/api";
-const IPN_ID = process.env.PESAPAL_IPN_ID || "3db0823c-0eb7-4a4e-b477-db1e72aa1bb1";
-const LIVE_CALLBACK_URL = process.env.PESAPAL_CALLBACK_URL || "https://server-y37b.onrender.com/api/pesapal/ipn";
+const IPN_ID = "3db0823c-0eb7-4a4e-b477-db1e72aa1bb1";
+const LIVE_CALLBACK_URL = "https://server-y37b.onrender.com/api/pesapal/ipn";
 
 let accessToken = null;
 
