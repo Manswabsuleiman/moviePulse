@@ -26,7 +26,7 @@ const Payment = () => {
       setMessage("");
 
       const response = await axios.post(
-        "https://moviepulse-9zq3.onrender.com/api/pesapal/order",
+        "https://pesapal-soa5.onrender.com/api/pesapal/order",
         {
           email,
           phone,
