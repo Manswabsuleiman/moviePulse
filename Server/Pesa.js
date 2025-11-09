@@ -1,5 +1,8 @@
+// ----------------------
+// Backend: PesaPal Live Server
+// ----------------------
+
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const axios = require("axios");
 const crypto = require("crypto");
@@ -9,23 +12,35 @@ const app = express();
 // ----------------------
 // CORS Configuration
 // ----------------------
+const allowedOrigins = [
+  "http://localhost:5174",          // Local frontend for development
+  "https://movieui.onrender.com"    // Deployed frontend
+];
+
 const corsOptions = {
-  origin: "http://localhost:5173", // allow only local frontend
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true); // Allow non-browser requests like Postman
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
 };
+
 app.use(cors(corsOptions));
-
-app.use(bodyParser.json());
+app.use(express.json());
 
 // ----------------------
-// PesaPal LIVE Credentials
+// PesaPal LIVE Credentials (use environment variables)
 // ----------------------
-const PESAPAL_CONSUMER_KEY = "q+VgbmFWV80GUHw72+a5kPbhIYxoOV0X";
-const PESAPAL_CONSUMER_SECRET = "ckA8EE4abmKNsCgzhMY5QlOhoOI=";
+const PESAPAL_CONSUMER_KEY = process.env.PESAPAL_CONSUMER_KEY;
+const PESAPAL_CONSUMER_SECRET = process.env.PESAPAL_CONSUMER_SECRET;
 const BASE_URL = "https://pay.pesapal.com/v3/api";
-const IPN_ID = "3db0823c-0eb7-4a4e-b477-db1e72aa1bb1";
-const LIVE_CALLBACK_URL = "https://movieui.onrender.com/api/pesapal/ipn";
+const IPN_ID = process.env.PESAPAL_IPN_ID || "3db0823c-0eb7-4a4e-b477-db1e72aa1bb1";
+const LIVE_CALLBACK_URL = process.env.PESAPAL_CALLBACK_URL || "https://server-y37b.onrender.com/api/pesapal/ipn";
 
 let accessToken = null;
 
@@ -61,7 +76,7 @@ async function getAccessToken() {
 setInterval(async () => {
   console.log("🔄 Refreshing PesaPal access token...");
   await getAccessToken();
-}, 55 * 60 * 1000); // 55 minutes
+}, 55 * 60 * 1000);
 
 // ----------------------
 // Route: Submit Order Request
@@ -71,7 +86,7 @@ app.post("/api/pesapal/order", async (req, res) => {
     const body = req.body || {};
     const { amount, email, phone, firstName, lastName } = body;
 
-    // ✅ Validate input
+    // Validate input
     if (!amount || isNaN(amount) || Number(amount) < 0.01) {
       return res.status(400).json({
         success: false,
@@ -162,8 +177,8 @@ app.get("/", (req, res) => {
 // ----------------------
 // Start Server
 // ----------------------
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, async () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
   await getAccessToken(); // Fetch token automatically on start
 });
